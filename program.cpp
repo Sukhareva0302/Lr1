@@ -310,6 +310,7 @@ int main()
     size_t index;
     data = 0; index = 0; //default values
     unsigned int not_end = 1;// 1 - not the end of the program, 0 - end of the program
+    unsigned int are_list_for_insertion_had_been_used = 0;
     while (not_end)
     {
         list.reset_error();
@@ -440,12 +441,23 @@ int main()
                 }
                 break;
             case 12:
-                cout << "Insert Index\n";
-                cin >> index;
-                list.insert_List(&list_for_insert, index);
-                if (list.get_error())
+                if (!are_list_for_insertion_had_been_used)
                 {
-                    cout << "There is no element corresponding to the index. The operation cannot be done\n";
+                    cout << "Insert Index\n";
+                    cin >> index;
+                    list.insert_List(&list_for_insert, index);
+                    if (list.get_error())
+                    {
+                        cout << "There is no element corresponding to the index. The operation cannot be done\n";
+                    }
+                    else
+                    {
+                        are_list_for_insertion_had_been_used = 1;
+                    }
+                }
+                else
+                {
+                    cout << "The operation cannot be done\n";
                 }
                 break;
             case 13:
@@ -461,18 +473,9 @@ int main()
             }
         }
     }
-}
-
-/*    List list = List();
-    cout << list << endl;
-    list.push_front(5);
-    cout << list;
-    for (int i = 0; i < 3; i++)
+    list.clear();
+    if (!are_list_for_insertion_had_been_used)
     {
-        list.push_back(i);
+        list_for_insert.clear();
     }
-    cout << list;
-    list.insert_Node(8, 1);
-    cout << list;
-    list.remove(3);
-    cout << list;*/
+}
